@@ -4,6 +4,7 @@ const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
+const favoritesRoutes = require("./routes/favorite");
 
 
 const app = express();
@@ -22,8 +23,10 @@ mongoose
 
 app.use("/", authRoutes);
 app.use("/", categoryRoutes);
-app.use("/", productRoutes);
+app.use("/products", productRoutes);
+app.use("/favorites", favoritesRoutes);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
+

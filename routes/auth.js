@@ -1,30 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const User = require("../models/User");
 
 const router = express.Router();
 const JWT_SECRET = "MY_SECRET_KEY";
 
-// ✅ SIGNUP
-// router.post("/signup", async (req, res) => {
-//   try {
-//     const { email, password } = req.body;
-
-//     const exist = await User.findOne({ email });
-//     if (exist)
-//       return res.json({ success: false, message: "Email already exists" });
-
-//     const hashed = await bcrypt.hash(password, 10);
-
-//     await User.create({ email, password: hashed });
-
-//     res.json({ success: true, message: "Signup successful" });
-//   } catch (err) {
-//     res.json({ success: false, message: err.message });
-//   }
-// });
-// ✅ SIGNUP
 router.post("/signup", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -35,12 +16,23 @@ router.post("/signup", async (req, res) => {
 
     const hashed = await bcrypt.hash(password, 10);
 
-    const user = await User.create({ email, password: hashed });
+    const lastUser = await User.find().sort({ userID: -1 }).limit(1);
 
-    // Log ra console để kiểm tra
+    let newID = "u001";
+
+    if (lastUser.length > 0 && lastUser[0].userID) {
+      const num = parseInt(lastUser[0].userID.replace("u", "")) + 1;
+      newID = "u" + num.toString().padStart(3, "0");
+    }
+    const user = await User.create({
+      userID: newID,
+      email,
+      password: hashed,
+    });
+
     console.log("New user saved:", user);
 
-    res.json({ success: true, message: "Signup successful" });
+    res.json({ success: true, message: "Signup successful", userID: newID });
   } catch (err) {
     console.error("Signup error:", err.message);
     res.json({ success: false, message: err.message });
@@ -48,7 +40,6 @@ router.post("/signup", async (req, res) => {
 });
 
 
-// ✅ LOGIN
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -61,17 +52,27 @@ router.post("/login", async (req, res) => {
     if (!match)
       return res.json({ success: false, message: "Invalid email or password" });
 
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, {
-      expiresIn: "7d",
+    const token = jwt.sign(
+      { id: user._id, userID: user.userID },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+    console.log("User logged in:", {
+      mongo_id: user._id,
+      userID: user.userID,
+      email: user.email,
     });
-
-    res.json({ success: true, token });
+    
+    return res.json({
+      success: true,
+      token: token,
+      userID: user.userID,
+    });
   } catch (err) {
     res.json({ success: false, message: err.message });
   }
 });
 
-// ✅ LOGOUT (client chỉ cần xoá token)
 router.post("/logout", (req, res) => {
   return res.json({ success: true, message: "Logged out" });
 });
