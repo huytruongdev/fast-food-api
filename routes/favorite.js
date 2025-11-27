@@ -2,13 +2,11 @@ const express = require("express");
 const router = express.Router();
 const Favorite = require("../models/Favorite");
 
-// File: routes/favorite.js
-
 router.get("/:userId", async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const favorites = await Favorite.find({ userId }); 
+    const favorites = await Favorite.find({ userId });
 
     console.log("RAW FAVORITE DOCUMENTS:", favorites);
 
@@ -23,8 +21,6 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-
-// THÊM FAVORITE
 router.post("/", async (req, res) => {
   try {
     const { userId, productId } = req.body;
@@ -40,7 +36,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// XOÁ FAVORITE
 router.delete("/:userId/:productId", async (req, res) => {
   try {
     const { userId, productId } = req.params;

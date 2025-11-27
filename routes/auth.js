@@ -39,7 +39,6 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -52,17 +51,15 @@ router.post("/login", async (req, res) => {
     if (!match)
       return res.json({ success: false, message: "Invalid email or password" });
 
-    const token = jwt.sign(
-      { id: user._id, userID: user.userID },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user._id, userID: user.userID }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
     console.log("User logged in:", {
       mongo_id: user._id,
       userID: user.userID,
       email: user.email,
     });
-    
+
     return res.json({
       success: true,
       token: token,
@@ -76,6 +73,5 @@ router.post("/login", async (req, res) => {
 router.post("/logout", (req, res) => {
   return res.json({ success: true, message: "Logged out" });
 });
-
 
 module.exports = router;

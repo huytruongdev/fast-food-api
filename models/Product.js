@@ -8,7 +8,7 @@ const ProductSchema = new mongoose.Schema({
   price: Number,
   rate: Number,
   specialItems: String,
-  categoryId: { type: String, required: true }, 
+  categoryId: { type: String, required: true },
   kcal: Number,
   time: String,
 });

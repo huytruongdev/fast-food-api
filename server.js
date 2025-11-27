@@ -5,7 +5,7 @@ const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const favoritesRoutes = require("./routes/favorite");
-
+const cartsRoutes = require("./routes/cart");
 
 const app = express();
 const PORT = 3000;
@@ -18,15 +18,15 @@ const DB_URI =
 
 mongoose
   .connect(DB_URI)
-  .then(() => console.log("✅ Connected to MongoDB"))
+  .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log("❌ DB error:", err.message));
 
 app.use("/", authRoutes);
 app.use("/", categoryRoutes);
 app.use("/products", productRoutes);
 app.use("/favorites", favoritesRoutes);
+app.use("/carts", cartsRoutes);
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
-

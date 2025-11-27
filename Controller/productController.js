@@ -13,7 +13,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductsByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
-    const products = await Product.find({ categoryId: categoryId }); // chú ý: categoryId
+    const products = await Product.find({ categoryId: categoryId });
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -52,7 +52,6 @@ exports.getProductsByIds = async (req, res) => {
 
     res.json(products);
   } catch (error) {
-    console.error("Error fetching products by IDs:", error);
     res.status(500).json({ error: "Server error" });
   }
 };
