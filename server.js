@@ -20,7 +20,7 @@ const DB_URI =
 mongoose
   .connect(DB_URI)
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log("❌ DB error:", err.message));
+  .catch((err) => console.log("DB error:", err.message));
 
 app.use("/", authRoutes);
 app.use("/", categoryRoutes);
@@ -28,6 +28,7 @@ app.use("/products", productRoutes);
 app.use("/favorites", favoritesRoutes);
 app.use("/carts", cartsRoutes);
 app.use("/orders", orderRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);

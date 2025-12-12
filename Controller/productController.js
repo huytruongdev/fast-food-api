@@ -10,6 +10,30 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+exports.getAllProductsPaginate = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const products = await Product.find().skip(skip).limit(limit);
+    const total = await Product.countDocuments();
+
+    console.log("===== PAGINATED PRODUCTS =====", products.length);
+
+    res.json({
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+      data: products,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
 exports.getProductsByCategory = async (req, res) => {
   try {
     const { categoryId } = req.params;
