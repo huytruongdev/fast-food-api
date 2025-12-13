@@ -19,8 +19,6 @@ exports.getAllProductsPaginate = async (req, res) => {
     const products = await Product.find().skip(skip).limit(limit);
     const total = await Product.countDocuments();
 
-    console.log("===== PAGINATED PRODUCTS =====", products.length);
-
     res.json({
       page,
       limit,
