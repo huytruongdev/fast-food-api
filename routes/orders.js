@@ -4,6 +4,7 @@ const Order = require("../models/Order");
 
 router.post("/", async (req, res) => {
   try {
+    console.log(req.body);
     const order = await Order.create({
       ...req.body,
       status: "pending",
@@ -12,6 +13,7 @@ router.post("/", async (req, res) => {
 
     res.status(201).json(order);
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: err.message });
   }
 });
