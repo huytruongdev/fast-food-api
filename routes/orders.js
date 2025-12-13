@@ -4,7 +4,6 @@ const Order = require("../models/Order");
 
 router.post("/", async (req, res) => {
   try {
-    console.log(req.body);
     const order = await Order.create({
       ...req.body,
       status: "pending",
@@ -46,21 +45,20 @@ router.put("/accept/:id", async (req, res) => {
   }
 });
 
-router.delete("/:userId", async (req, res) => {
-  const { userId } = req.params;
-
+router.get("/user/:userId", async (req, res) => {
   try {
-    const result = await Cart.findOneAndDelete({ userId: userId });
+    const { userId } = req.params;
 
-    if (!result) {
-      return res
-        .status(200)
-        .json({ message: "Giỏ hàng đã trống hoặc không tồn tại." });
+    const orders = await Order.find({ userId: userId }).sort({ createdAt: -1 });
+
+    if (!orders) {
+        return res.status(200).json([]);
     }
-    res.status(200).json({ message: "Giỏ hàng đã được xóa thành công." });
-  } catch (error) {
-    console.error("Lỗi xóa giỏ hàng:", error);
-    res.status(500).json({ message: "Lỗi server khi xóa giỏ hàng." });
+
+    res.status(200).json(orders);
+  } catch (err) {
+    console.error("Lỗi lấy lịch sử đơn hàng:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
