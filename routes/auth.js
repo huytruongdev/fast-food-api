@@ -30,7 +30,6 @@ router.post("/signup", async (req, res) => {
       password: hashed,
     });
 
-    console.log("New user saved:", user);
 
     res.json({ success: true, message: "Signup successful", userID: newID });
   } catch (err) {
@@ -53,11 +52,6 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({ id: user._id, userID: user.userID }, JWT_SECRET, {
       expiresIn: "7d",
-    });
-    console.log("User logged in:", {
-      mongo_id: user._id,
-      userID: user.userID,
-      email: user.email,
     });
 
     return res.json({

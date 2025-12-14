@@ -62,7 +62,6 @@ router.put("/accept/:id", async (req, res) => {
 
     res.json(order);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -71,7 +70,7 @@ router.put("/update-status/:id", async (req, res) => {
   try {
     const { status } = req.body;
     const validStatuses = ["shipping", "arrived", "delivered"];
-    
+
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: "Trạng thái không hợp lệ" });
     }

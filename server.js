@@ -29,8 +29,8 @@ const DB_URI = "mongodb+srv://admin:admin123@test.vzbuawu.mongodb.net/?appName=T
 
 mongoose
     .connect(DB_URI)
-    .then(() => console.log("✅ Connected to MongoDB"))
-    .catch((err) => console.log("❌ DB error:", err.message));
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.log("DB error:", err.message));
 
 app.use("/", authRoutes);
 app.use("/", categoryRoutes);
@@ -40,7 +40,7 @@ app.use("/carts", cartsRoutes);
 app.use("/orders", orderRoutes);
 
 io.on('connection', (socket) => {
-    console.log(`⚡ Client connected: ${socket.id}`);
+    console.log(`Client connected: ${socket.id}`);
 
     // Sự kiện: Join Room
     socket.on('join_order', (orderId) => {
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
         // Debug log
         const room = io.sockets.adapter.rooms.get(roomId);
         const numClients = room ? room.size : 0;
-        console.log(`👉 Sending loc to room: "${roomId}" - Clients: ${numClients}`);
+        console.log(`Room: "${roomId}" - Clients: ${numClients}`);
 
         // Gửi tọa độ cho Khách hàng trong phòng
         io.to(roomId).emit('delivery_location_update', {
@@ -70,7 +70,6 @@ io.on('connection', (socket) => {
     });
 });
 
-// 6. Chạy Server
 server.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`Server running at http://localhost:${PORT}`);
 });

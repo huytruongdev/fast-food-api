@@ -39,8 +39,6 @@ router.post("/add", async (req, res) => {
   try {
     let cart = await Cart.findOne({ userId });
 
-    console.log(cart);
-
     if (cart) {
       // -- Trường hợp 1: Giỏ hàng đã tồn tại --
       
@@ -69,7 +67,6 @@ router.post("/add", async (req, res) => {
 
     } else {
       // -- Trường hợp 2: User chưa có giỏ hàng -> Tạo mới --
-      console.log('here')
       const newCart = await Cart.create({
         userId,
         items: [{ productId, quantity }],
@@ -78,7 +75,6 @@ router.post("/add", async (req, res) => {
       return res.json({ message: "Cart created", cartId: newCart._id });
     }
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: err.message });
   }
 });
