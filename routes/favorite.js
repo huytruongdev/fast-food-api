@@ -12,7 +12,7 @@ router.get("/:userId", async (req, res) => {
 
     const productIDs = favorites.map((fav) => fav.productId);
 
-    console.log("Product IDs favorited by user:", userId, productIDs);
+    console.log("Product IDs favorite by user:", userId, productIDs);
 
     res.json(productIDs);
   } catch (err) {

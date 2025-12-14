@@ -46,8 +46,19 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-  },
-  { timestamps: true }
+  }, { 
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+  
 );
+
+OrderSchema.virtual('shipperInfo', {
+  ref: 'User',
+  localField: 'shipperId',
+  foreignField: 'userID',
+  justOne: true
+});
 
 module.exports = mongoose.model("Order", OrderSchema);
