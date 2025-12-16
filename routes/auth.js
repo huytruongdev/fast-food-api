@@ -60,6 +60,7 @@ router.post("/login", async (req, res) => {
       userID: user.userID,
     });
   } catch (err) {
+    console.log(err);
     res.json({ success: false, message: err.message });
   }
 });
