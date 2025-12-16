@@ -11,4 +11,5 @@ router.get("/categories/:categoryId", getProductsByCategory);
 router.post("/byIds", getProductsByIds);
 router.get("/paginate", getAllProductsPaginate);
 
+
 module.exports = router;

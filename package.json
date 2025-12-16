@@ -13,11 +13,19 @@
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
-    "express": "^5.1.0",
+    "express": "^5.2.1",
     "http": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.19.3",
+    "mongoose": "^8.20.2",
     "nodemailer": "^7.0.11",
     "socket.io": "^4.8.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/huytruongdev/fast-food-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/huytruongdev/fast-food-api/issues"
+  },
+  "homepage": "https://github.com/huytruongdev/fast-food-api#readme"
 }
