@@ -69,7 +69,7 @@ router.put("/accept/:id", async (req, res) => {
 router.put("/update-status/:id", async (req, res) => {
   try {
     const { status } = req.body;
-    const validStatuses = ["shipping", "arrived", "delivered"];
+    const validStatuses = ["pending", "accepted", "shipping", "arrived", "delivered", "cancelled"];
 
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: "Trạng thái không hợp lệ" });
