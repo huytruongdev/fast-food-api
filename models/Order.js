@@ -22,6 +22,16 @@ const OrderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+
+    shippingFee: { 
+        type: Number, 
+        default: 0 
+    },
+    discountAmount: { 
+        type: Number, 
+        default: 0 
+    },
+
     pickupLocation: {
       lat: { type: Number, required: true },
       lng: { type: Number, required: true },
@@ -41,6 +51,7 @@ const OrderSchema = new mongoose.Schema(
     status: {
       type: String,
       default: "pending",
+      enum: ["pending", "accepted", "shipping", "arrived", "delivered", "cancelled"]
     },
     shipperId: {
       type: String,

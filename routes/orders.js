@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
+const User = require("../models/User");
+const { sendMail } = require("../services/emailService");
 
 router.post("/", async (req, res) => {
   try {
@@ -9,12 +11,21 @@ router.post("/", async (req, res) => {
       status: "pending",
       shipperId: null,
     });
+    console.log(req.body)
+    const user = await User.findOne({ userID: "u001" });
+    console.log(user);
+    if (user && user.email) {
+      sendMail(order, user.email);
+    } else {
+      console.log("Không tìm thấy user hoặc user không có email để gửi.");
+    }
 
     const io = req.app.get("socketio");
 
     io.emit("new_order_available", order);
     res.status(201).json(order);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err.message });
   }
 });
@@ -69,7 +80,7 @@ router.put("/accept/:id", async (req, res) => {
 router.put("/update-status/:id", async (req, res) => {
   try {
     const { status } = req.body;
-    const validStatuses = ["shipping", "arrived", "delivered"];
+    const validStatuses = ["pending", "accepted", "shipping", "arrived", "delivered", "cancelled"];
 
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: "Trạng thái không hợp lệ" });
